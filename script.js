@@ -3,7 +3,7 @@
 const players = function(name,symbol,turn){
     return  {name,symbol,turn}
 }
-
+//call above function to create player
 const player1 = players('Player1','X',true);
 const player2 = players('Player2','0',false);
 
@@ -13,41 +13,43 @@ const player2 = players('Player2','0',false);
 //define necesarry variables
 let activePlayer;
 let gameState = true;
-
-    //Array for game board
-    let gameBoardArr= []; 
-  
-    //function for letting user play
+ 
+    //function play
     const play = function(){
+      //select all the boxes and add event listener 
     const buttons = document.querySelectorAll('button');
     buttons.forEach(function(btn){
     btn. addEventListener("click",function(e){
+      if(gameState == true){
 
-   if(gameState === true){
     //let player 1 mark the box 
      if(player1.turn==true && player2.turn==false && btn.textContent==""){
        activePlayer = player1;
+       const toggelEffect = toggle();
      btn.textContent = player1.symbol;
         player1.turn = false;
         player2.turn = true;
-        //console.log(activePlayer);
 
+        //console.log(activePlayer);
 
        //let player 2 mark the box
     } else if(player1.turn==false &&
        player2.turn==true && btn.textContent == ""){
      activePlayer = player2;
+     const toggelEffect = toggle();
+
      btn.textContent = player2.symbol;
      player2.turn = false;
      player1.turn = true;
    //console.log(activePlayer);
 } 
-   };
+    
 //check whether any player wins
 const check_win = checkWin();
+      }
   })
   })
-    };
+    }
   
   const checkWin = function(){
     //select the boxes by their ordered ids and grab their textcontent
@@ -68,17 +70,22 @@ const check_win = checkWin();
       //check first row
   if(box0 == activePlayer.symbol &&  box1 == activePlayer.symbol && box2 == activePlayer.symbol){
       console.log(`${activePlayer.name} wins`);
+      const showWinner = displayWin();
       gameState = false;
+    //  const restart_ = restart();
+
   } 
   //check second row
   if(box3 == activePlayer.symbol &&  box4 == activePlayer.symbol && box5 == activePlayer.symbol){
-    console.log(`${activePlayer.name} wins`);
+    const showWinner = displayWin();
     gameState = false;
+
   }
   //check third row
   if(box6 == activePlayer.symbol &&  box7 == activePlayer.symbol && box8 == activePlayer.symbol){
-    console.log(`${activePlayer.name} wins`);
+    const showWinner = displayWin();
     gameState = false;
+
   }
 }
 
@@ -86,20 +93,21 @@ const check_win = checkWin();
   function checkCols(){
  //check first column
  if(box0 == activePlayer.symbol && box3 == activePlayer.symbol && box6 == activePlayer.symbol){
-   console.log(`${activePlayer.name} wins`);
-   gameState = false;
+  const showWinner = displayWin();
+  gameState = false;
 
  }
  //check second column
  if(box1 == activePlayer.symbol && box4 == activePlayer.symbol && box7 == activePlayer.symbol){
-  console.log(`${activePlayer.name} wins`);
+  const showWinner = displayWin();
   gameState = false;
 
 }
 //check third column 
 if(box2 == activePlayer.symbol && box5 == activePlayer.symbol && box8 == activePlayer.symbol){
-  console.log(`${activePlayer.name} wins`);
+  const showWinner = displayWin();
   gameState = false;
+
 }
   }
 
@@ -107,36 +115,56 @@ if(box2 == activePlayer.symbol && box5 == activePlayer.symbol && box8 == activeP
  function checkDiagnols(){
 //check diagnols
 if(box0 == activePlayer.symbol && box4 == activePlayer.symbol && box8 == activePlayer.symbol){
-  console.log(`${activePlayer.name} wins`);
+  const showWinner = displayWin();
   gameState == false;
+
 }
 if(box2 == activePlayer.symbol && box4 == activePlayer.symbol && box6 == activePlayer.symbol){
-  console.log(`${activePlayer.name} wins`);
+  const showWinner = displayWin();
   gameState == false;
 }
   }
 }
+const displayWin = function(){
+  let displayWinner = document.querySelector('.winmsg');
+  displayWinner.innerHTML = ` Congratulations!! ${activePlayer.name} won!`;
+   const restart_ = restart();
+
+}
+const restart = function(){
+  const restartBtn = document.querySelector('.restart');
+  restartBtn.addEventListener("click",function(){
+    const btns = document.querySelectorAll(".btn");
+    btns.forEach(function(btn){
+      btn.textContent = "";
+
+    });
+  
+    const removeWinMsg = document.querySelector('.winmsg');
+    removeWinMsg.innerHTML = "";
+    gameState = true;
+  });
+
+}
+const toggle = function(){
+  const span0 = document.querySelector('.span0');
+  const span1 = document.querySelector('.span1');
+
+  if(activePlayer == player1){
+    span1.classList.remove('activePlayer')
+  span0.classList.add('activePlayer');
+  
+} else {
+  span0.classList.remove('activePlayer');
+  span1.classList.add('activePlayer');
+}
+}
+
     //return object to be able to access outside the module
     return{
       play,
     }
   })();
-  
-  boardModule.play();
 
-  /*let winningConditions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-];
-  */
-  
-  
-  
-  
+  boardModule.play();
   
