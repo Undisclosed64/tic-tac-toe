@@ -3,9 +3,27 @@
 const players = function(name,symbol,turn){
     return  {name,symbol,turn}
 }
+const player1_ = prompt("Enter the name of first player");
+const player2_ = prompt("Enter the name of second player");
+
 //call above function to create player
-const player1 = players('Player1','X',true);
-const player2 = players('Player2','0',false);
+const player1 = players(player1_,'X',true);
+const player2 = players(player2_,'0',false);
+
+//function to display the player names 
+const displayNames = function(){
+  const player1Name = document.querySelector('.span0');
+  const player2Name = document.querySelector('.span1');
+  if(player1_ == "" && player2_ == ""){
+    player1Name.textContent = 'Player1';
+    player2Name.textContent = 'Player2';
+  } else {
+  player1Name.textContent = player1_;
+  player2Name.textContent = player2_;
+  }
+}
+const displayNames_ = displayNames();
+
 
   //Module 
   const boardModule = (function(){
@@ -17,11 +35,10 @@ let gameState = true;
     //function play
     const play = function(){
       //select all the boxes and add event listener 
-    const buttons = document.querySelectorAll('button');
+    let buttons = document.querySelectorAll('button');
     buttons.forEach(function(btn){
-    btn. addEventListener("click",function(e){
+    btn.addEventListener("click",function(e){
       if(gameState == true){
-
     //let player 1 mark the box 
      if(player1.turn==true && player2.turn==false && btn.textContent==""){
        activePlayer = player1;
@@ -29,8 +46,7 @@ let gameState = true;
      btn.textContent = player1.symbol;
         player1.turn = false;
         player2.turn = true;
-
-        //console.log(activePlayer);
+       // console.log(activePlayer);
 
        //let player 2 mark the box
     } else if(player1.turn==false &&
@@ -41,14 +57,17 @@ let gameState = true;
      btn.textContent = player2.symbol;
      player2.turn = false;
      player1.turn = true;
-   //console.log(activePlayer);
+  // console.log(activePlayer);
 } 
     
 //check whether any player wins
 const check_win = checkWin();
+//check for tie
+const drawGame = game_draw();
       }
   })
   })
+
     }
   
   const checkWin = function(){
@@ -125,27 +144,51 @@ if(box2 == activePlayer.symbol && box4 == activePlayer.symbol && box6 == activeP
 }
   }
 }
+
 const displayWin = function(){
   let displayWinner = document.querySelector('.winmsg');
   displayWinner.innerHTML = ` Congratulations!! ${activePlayer.name} won!`;
-   const restart_ = restart();
+  // const restart_ = restart();
 
+}
+const game_draw = function(){
+  const btns = document.querySelectorAll('.btn');
+
+  const btns_arr = Array.prototype.slice.call(btns);
+    for(let i = 0;i<btns_arr.length;i++){
+    //  console.log( typeof btns_arr[i]);
+  //  console.log(btns_arr[i].value);
+if(btns_arr[i].innerText !== ""){
+//console.log('draw');
+} else {
+ //console.log('not draw');
+}
+}
 }
 const restart = function(){
   const restartBtn = document.querySelector('.restart');
   restartBtn.addEventListener("click",function(){
+
+    //remove activePlayer class from both players
+    const span0 = document.querySelector('.span0');
+    const span1 = document.querySelector('.span1');
+    span1.classList.remove('activePlayer')
+    span0.classList.remove('activePlayer')
+
+    //clear button fields
     const btns = document.querySelectorAll(".btn");
     btns.forEach(function(btn){
       btn.textContent = "";
-
     });
-  
+    //remove win msg if there's any
     const removeWinMsg = document.querySelector('.winmsg');
     removeWinMsg.innerHTML = "";
     gameState = true;
   });
 
 }
+const restart_ = restart();
+
 const toggle = function(){
   const span0 = document.querySelector('.span0');
   const span1 = document.querySelector('.span1');
