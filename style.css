@@ -24,16 +24,20 @@ h2 {
   font-size: 4rem;
 }
 span {
-  border: 2px solid orange;
+  /*border: 2px solid orange;
   border-bottom: 3px solid orangered !important;
   border: none;
-  padding-bottom: 5px;
+  padding-bottom: 5px;*/
   font-size: 3rem !important;
   color: #da0c0c !important;
 }
 
 .activePlayer {
-  color: rgb(32, 107, 219) !important;
+  color: rgb(14, 124, 102) !important;
+  border: 2px solid orange;
+  border-bottom: 3px solid rgb(14, 124, 102) !important;
+  border: none;
+  padding-bottom: 5px;
 }
 .winmsg {
   font-size: 2rem;
@@ -60,6 +64,7 @@ span {
   cursor: pointer;
   line-height: 100px;
   font-size: 60px;
+  outline: none;
 }
 .restart {
   text-align: center;
@@ -75,6 +80,8 @@ span {
   top: 2em;
 }
 .restart:hover {
-  transform: scaleX(1.2);
-  letter-spacing: 2px;
+  transform: scaleX(1.4);
+  transition-duration: 0.4s;
+  transition-delay: 0.1s;
+  transition-timing-function: ease-out;
 }
